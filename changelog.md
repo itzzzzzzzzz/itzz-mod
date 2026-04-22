@@ -1,0 +1,1175 @@
+# 2.8.7
+
+- Added info button for mods that have per player options
+- Added movable startpos switcher button
+- Fixed Button Module keybinds repeating
+- Fixed blue hitbox being the wrong size
+- Improved small part of UI
+
+# 2.8.6
+
+- Fixed Speedhack Keybinds not working correctly
+- Fixed Keybinds activating on release
+- Fixed Keybinds activating in the Edit Keybind UI
+- Fixed Show Trajectory Hitbox Trail not drawing if the player doesn't die
+
+# 2.8.5
+
+- Added Show Trajectory hitbox trail
+- Added menu snow, december snow is now togglable so you can have snowy menus all of the year
+- Added Keybind Hold mode
+- Added Circle Hitbox option for show hitboxes
+- Removed unused language font to save on storage
+- Temporarily disabled transition customizer due to a crash when getting an achievement
+- Fixed Passable hitbox colours not working
+- Fixed Mouse scrolling not working on mobile
+- Fixed rare crash with show trajectory
+- Fixed Run Info From in Percentage option not working
+- Fixed Speedhack and Safe Mode not appearing as red in the mod menu
+- Fixed Shortcut configs resetting when pressing escape instead of the OK button
+- Fixed Shortcuts not working during scene transitions
+- Fixed Dash Fire, Spider Teleport and Fine Outline icon effects not saving
+- Localisation:
+-- Added Swedish
+-- Updated Kazakh
+-- Updated Latin American Spanish
+-- Updated German
+-- Updated Russian
+-- Updated Filipino
+-- Updated Arabic
+-- Updated Indonesian
+
+# 2.8.4
+
+- Added Gravity Arrow
+- Added Show button in Editor
+- Added Show button in Endscreen
+- Added Show button in Level
+- Made mod data save when closing the menu
+- Changed Button to only appear after the end screen has appeared
+- Fixed crashing using cross fade transition on Android
+- Fixed cross fade transition not updating every frame
+- Fixed crash entering editor with show trajectory enabled
+- Fixed menus being clipped wrong with fade animation
+
+# 2.8.3
+
+- Optimised UI
+- Added Documentation to label format
+- Added Editor Wave Trail
+- Fixed No Rotation changing the players rotated hitbox
+- Fixed Show Trajectory having a trail
+- Fixed Hitboxes not updating when dead
+- Fixed Noclip not working in Editor
+- Fixed Show Trajectory not showing deaths in the editor
+
+# 2.8.2
+
+- Added Label Rotation
+- Made most UI buttons not be affected by Speedhack
+- Made Search show the name of the option in the top-right
+- Fixed Hitboxes, Autoclicker, Show Trajectory, and Coin Tracers not working on macOS
+- Fixed Icon Effects UI Breaking after using app switcher (Android)
+- Fixed Show Touches not working with Better Touch Priority
+- Fixed Show Touches sometimes disabling in some parts of the UI (main levels)
+- Fixed Click Between Frames toggle not working
+- Fixed Crash in editor with particle editor
+- Fixed Crash entering editor with Show Trajectory enabled
+- Fixed Custom Background not saving after reopening the game on iOS
+- Fixed Best Run not getting set to 100% after completing the level
+- Fixed Hitboxes, Show Trajectory, Coin Tracers and Noclip Tint drawing above the UI
+
+# 2.8.1
+
+- Added Dash Fire and Spider Teleport to Icon Effects
+- Added Back Button shortcut
+- Made Icon Effects Fine Outline integration apply in the icon effects menu
+- Fixed Show Hitboxes and Show Trajectory breaking on some platforms
+- Fixed Mini Player not working correctly in Show Trajectory
+- Fixed Crash changing textures with Transparent BG enabled
+- Fixed Icon Effects not applying to robot and spider
+- Fixed buttons being clickable when they are not on screen in a scroll layer
+- Fixed Noclip Accuracy being extremely inaccurate
+- Fixed Text Inputs not working on Android
+- Fixed Gold Fonts disappearing when changing colour (in other languages)
+
+# 2.8.0
+
+- Added ***Show Trajectory**
+- Added Clear Button to Paint
+- Added Option for vertical buttons in paint
+- Added Fixed Checkpoints
+- Added Crash the game shortcut
+- Added Hitbox Trail opacity
+- Added Extension API for mod developers to add their own custom categories to qolmod
+- Made selected menu animation apply to subpopups (like mod settings)
+- Fixed Hide Button being unavailable on chromebooks (hopefully)
+- Fixed Text Inputs not working on 2.2074 (hopefully)
+- Fixed Speedhack Gameplay not saving
+- Fixed Paint showing when it is disabled
+- Fixed Transition Customiser not working
+- Fixed Auto Download Songs not working
+- Fixed Crash opening the game on macOS
+- Fixed Black screen on android
+- Localisation:
+-- Added Gold Font support
+-- Added Latin American Spanish
+-- Added Austrian German
+-- Updated Vietnamese
+-- Updated Russian
+-- Updated Indonesian
+-- Updated Kazakh
+-- Updated Polish
+-- Updated Korean
+-- Updated French
+-- Updated German
+
+# 2.7.10
+
+- Fixed physics being broken on iOS and Windows
+- Readded High FPS Rotation, But renamed to "Bugged Ship Rotation"
+
+# 2.7.9
+
+- Added **Paint**
+- Added Accurate Hitboxes
+- Added Transition Customiser
+- Added No Editor Zoom Limit
+- Added High Quality Circles
+- Readd TPS Bypass on Android 32
+- Fixed Shortcuts not working with textureldr enabled
+- Fixed All Modes Platformer not working on Android
+- Fixed missing hitboxes for speed portals
+- Fixed Solid Wave Trail not working with Wave Trail Draw Fix
+- Removed High FPS Rotation as no one actually understood what it does
+
+# 2.7.8
+
+- Fixed Pause Menu appearing black with better touch priority installed
+- Fixed game crashing when unpausing / restarting / entering practice mode
+
+# 2.7.7
+
+- Fixed buttons not rendering on iOS
+- Fixed Pause button and Startpos switcher not being usable after pausing
+
+# 2.7.6
+
+- Added All Modes Platformer
+- Added Zoom Pause Menu
+- Added Solid Wave Trail Preserve Center
+- Added button to temporarily load a language from a file
+- Fixed Pitch Shifter not applying when launching the game
+- Fixed category buttons disappearing for one frame when changing language
+- Made Icon Effects disable if incompatible mods are installed
+- Fixed bad rendering hook that should probably crash on mobile but surprisingly doesn't
+- Improved searching a bit
+- Localisation:
+-- Added Kazakh
+-- Added Portuguese
+-- Added European Portuguese
+-- Added Filipino
+-- More complete Ukrainian
+-- More complete Russian
+-- More complete Polish
+
+# 2.7.5
+
+- Fixed update not being available due to my stupidity
+
+# 2.7.4
+
+- Added Pitch Shifter high quality
+- Added Paste button to labels format page
+- Added a background behind options in the search page
+- Made category scrolls save between popup opens
+- Improved search tab by using fuzzy search
+- Fixed show hitboxes not updating when rotating a slope in the editor
+- Fixed image labels being invisible
+
+# 2.7.3
+
+- Added UI Scale
+- Added Autoclicker
+- Fixed brown square in bottom left of startpos switcher keybind popup
+- Fixed trail using wrong colour
+- Fixed trail always showing
+- Fixed clicking search tab not working sometimes
+- Fixed opacity not working on image labels
+- Fixed hitbox opacity not working
+- Localisation:
+-- Added Korean
+-- Added Basque
+
+# 2.7.1
+
+- Added scrollbar to languages tab
+- Fixed crash opening profile on the main menu
+- Fixed Language Contribute button not working
+- Fixed rare crash when using auto download song without accepting the newgrounds tos
+- Fixed force trail on not working
+- Fixed hitbox trail allocating 30x more memory than it needs
+- Fixed exiting a level going back to the main menu when icon kit in pause is used
+- Fixed show hitboxes not working with mirror portal
+- Fixed game being frozen on Android 32
+
+# 2.7.0
+
+- Added **Icon Effects**
+- Added Reset percentage on save
+- Added contribute button to languages tab
+- Fixed Input nodes not working on macOS and android (with floating keyboards)
+- Fixed colour gradients not saving
+- Fixed keybind to open menu not working sometimes
+
+# 2.6.2
+
+- Added Image label type
+- Added Fast Chests
+- Fixed Hitbox Trail rendering incorrectly in the editor
+- Fixed show hitboxes being delayed by one frame in the editor
+- Fixed extremely rare crash opening the menu
+- Fixed small line appearing through labels in UI
+
+# 2.6.1
+
+- Added culling to hitbox trail for better performance
+- Added Safe Mode disable cheats in UI
+- Added No Orb Pulse custom size
+- Fixed missing names and descriptions for No Circles options
+- Fixed keybinds activating when typing in a search box
+- Localisation:
+-- Added support for languages that don't split words by spaces
+-- Fixed descriptions appearing weird in Arabic
+-- Added Japanese
+
+# 2.6.0
+
+- Added **support for GD 2.2081**
+- Added Version Info texts into the main UI
+- Added option to change shortcut icon colour
+- Added Custom Image theme
+- Added Notifications when toggling shortcuts or keybinds
+- Added High FPS Rotation
+- Added per gamemode no player rotation options
+- Added Effect Speed slider to pastel / chroma colours
+- Added Unlock Main Demon Levels
+- Added Uncomplete Level
+- Added No Custom Object Limit
+- Added Show Touches scale options
+- Added RGBH inputs to colour select popups
+- Added Clone Level shortcut
+- Added Open Graphics Settings shortcut
+- Added Hide Editor UI
+- Added Fast Endscreen
+- Added Show Touches duration option
+- Added Show Touches disable trail option
+- Added 3 New background images for shortcut icons
+- Improved Blur BG Performance and switched to using Blur API
+- Fixed Safe Mode changing end screen even with auto safe mode disabled
+- Fixed Shortcuts moving incorrectly with multiple fingers on screen
+- Fixed Show Touches trail being affected by speedhack
+- Fixed being able to complete levels when playing from a startpos with auto safe mode disabled
+- Fixed White Square when using Fade In animation
+- Fixed crash when loading an invalid language file
+- Fixed no shaders impacting performance
+- Fixed Auto Safe Mode being triggered by levels with spike endscreens
+- Fixed Input Fields not working with Show Touches enabled
+- Fixed Noclip not working in editor
+- Fixed Noclip tint overlay not working when shaders are enabled
+- Fixed trail appearing for one frame when Force Trail Off is enabled
+- Updated button to colour the white circle outline pastel in sync with the icon
+- Fixed language select menu scrolling down too far
+- Improved Show Hitboxes
+- Moved all shortcut buttons to its own category
+-- Uses custom node to draw hitboxes
+-- Hitbox outlines now draw inside the bounds of the object
+-- Added support for show hitboxes to more objects
+-- Hitbox trail now uses std::deque for faster performance
+-- Added Hitbox trail seperate click and release colours
+-- Made Hitbox trail not depend on fps
+-- Added No Limit option to hitbox trail
+- Localisation:
+-- Added support for right-to-left languages (such as Arabic)
+-- Added Arabic
+-- Added French
+
+# 2.5.3
+
+- Fixed minor UI issues
+- Added warning when using shortcuts with textureldr installed
+- Fixed Hitboxes disappearing when using show hitboxes on death death object only
+- Fixed lag using show hitboxes on death death object only
+
+# 2.5.2
+
+- Added TPS Bypass
+- Added End-screen Cheat Indicator to Auto Safe Mode
+- Fixed Hitboxes always showing in the editor
+- Fixed being able to switch startpos on the end screen
+
+# 2.5.1
+
+- Fixed XDBot not working if you had tps bypass enabled in a previous version
+
+# 2.5.0
+
+- Added **Localisation**
+-- Current Languages are:
+-- Spanish
+-- Vietnamese
+-- Polish
+-- German
+-- Indonesian
+-- Russian
+-- Ukrainian
+-- This also added support for searching for mods in other languages, however this may not work on Android until the next Geode launcher update
+- Added **Shortcuts**
+- Added Trail Cutting
+- Added Per Player Noclip Enabling
+- Added Noclip Max Deaths and Min Accuracy
+- Added Create Custom Rewards
+- Added Death Object Only option to Show Hitboxes on Death
+- Added Hitbox Trail option to Show Hitboxes on Death
+- Added Option to disable teleport portal particles in No Particles
+- Added Option to change Gradient BG rotation
+- Added Search on Keypress
+- Added Buttons to open pause, toggle practice mode, and restart attempt
+- Moved Slider Limit Bypass to Creator category
+- Made Noclip only trigger Auto Safe Mode when you die
+- Made Speedhack only trigger Auto Safe Mode when speedhack is below 1.0
+- Improved all Input Fields used in the UI
+- Fixed Wave Trail appearing wrong size when Wave Trail Size is enabled
+- Fixed Run Info Show In Percentage
+- Fixed Blur Background appearing black when turning it on sometimes
+- Fixed Player moving incorrectly with Frame Extrapolation enabled
+- Fixed Player being rotated incorrectly with Frame Extrapolation enabled
+- Fixed No Orb Pulse not working on levels with main level songs
+- (Hopefully) Fixed crash using Blur Background on iOS
+-- This is a hopefully because I don't own an apple device to test on </3
+
+# 2.4.1
+
+- Added Auto Song Download
+- Added Pitch Shifter music only
+- Added support for BetterPicker by FlowVix in colour select popups
+- Fixed Pitch Shifter not applying properly when loading config
+- Fixed Label X Offset making the label move to the right forever
+- Fixed Safe Mode reasons list appearing empty if only safe mode is enabled
+- Fixed Cheat Indicator appearing too small
+- Fixed Hitbox Trail not working for player 2
+- Fixed missing localisation for filter search results
+
+# 2.4.0
+
+- Added **Labels**
+- Added Option to force hide all labels
+- Added Ability to add a keybind to enable speedhack
+- Added Ability to add keybinds to speedhack presets
+- Added Stop Triggers on Death
+- Added Suicide (Auto kill player)
+- Added Freeze Attempts
+- Added Force Platformer
+- Added Show Touches
+- Added No Orb Pulse
+- Added Option to disable dash fire particles in No Particles
+- Added Blur Background
+- Added Full Options Menu
+- Added Button to end screen when safe mode is on to view the reasons for disabling level progress
+- Added support for colour tags and (some) alternate languages in labels
+- Changed name of "Ship hold particles" to "Ship boost particles"
+- Fixed Disabling speed change particles not disabling the 0.5x speed particles
+- Fixed Show Hitboxes and Hitbox Trail not working in the editor
+- Fixed chests unlocked with open chest bypass not saving
+- Fixed crash when favouriting or adding a keybind to a button module (like reset audio variables)
+- Fixed menu animations being affected by speedhack
+- Fixed hide pause menu not hiding when enabled with a keybind
+- Fixed wave trail appearing wrong size when player is mini
+- Fixed player rotating when using a dash orb with no rotation enabled
+
+# 2.3.0
+
+- Added Hitbox Trail
+- Added 1 Attempt Practice Complete
+- Added Treasure Room Chest Bypass
+- Added Advanced No Particles
+- Added Keybinds
+- Fixed percentage label showing lots of decimals if accurate percentage was disabled
+- Readded Transparent theme
+- Fixed player icon not rotating with arrow trigger
+- Made Gradient theme colours changable
+- Added Customizable fade colours into the colour customization menu
+- Fixed incompatibility with "Scrollbar Everywhere!" by user95401
+- Fixed rare crash opening the game when the assets didn't properly extract
+
+# 2.2.0
+
+- Added Noclip Tint on Death
+- Added Classic Percentage
+- Added Pitch Shifter
+- Added Hitbox Colour Changer
+- Fixed Coin Tracers not drawing a line if the coins opacity was changed with a trigger
+- Made it so you can have custom background colours with Transparent BG
+- Improved code so that customizable colours can also have chroma / pastel effects
+- Changed Disable Open In-Game to default to off
+- Changed No Particles to allow Menu Snow
+- Fixed a bug where SFX / Song triggers / functions (click sounds) randomly stopped working
+- Fixed pulsing objects / wave trail not pulsing correctly
+
+# 2.1.0
+
+- Added Frame Extrapolation
+- Added No Glow
+- Added Transparent BG
+- Added Smart StartPos
+- Added Speedhack Presets
+- Added December Snow
+- Added Reset Audio Sliders button to Slider Limit Bypass
+- Added Accurate Percentage
+- Added option for Startpos Switcher to show percentages
+- Removed Auto Claim Quests due to crashes
+- Stopped No Shaders from triggering auto safe mode because the majority of players used it for performance reasons
+- Fixed scroll wheel not working in the menu
+
+# 2.0.0
+
+- Rewrite entire mod
+- Fixed MANY bugs including:
+-- Startpos switcher not toggling auto safe mode when playing from a startpos
+-- Show Hitboxes not being able to be turned off
+-- Settings not saving
+- Improved UI
+-- Added icons next to many ui elements
+-- Improved code to make it easy to add new features like favourites
+- Added ability to favourite mods
+- Added ability to change keybind for the mod menu
+- Added new **Fade In** animation for the menu
+- Improved button animations
+
+# 1.8.0
+
+- Added **iOS Support**
+- Fixed Show Hitboxes always being on
+
+# 1.7.9(8)
+
+- Fixed Crash
+
+# 1.7.9(7)
+
+- Fixed Safe Mode always being active
+
+# 1.7.9(6)
+
+- Removed Comment Emojis integration to fix lag
+- Improved Performance
+- Fixed Toggling Show Hitboxes not working sometimes
+- Updated outdated strings
+- Changed default open animation to scale cuz it looks nicer
+- Removed not very nice message from github readme
+- Fixed crash opening language select caused by other developer update
+- Made Safe Zone config button easier to click
+- Fixed Show Hitboxes showing player 2 hitbox when it isn't meant to :P
+- Added Reset Audio Sliders button to fix audio sliders going off screen (Thanks @anhnguyenlost13)
+- Added **Noclip SFX on Death**
+
+# 1.7.8
+
+- Fixed Speedhack being extremely laggy
+- Fixed Timewarp Trigger / Speedhack breaking CPS + FPS Labels
+- Removed Uncomplete Level cuz it was broken. Will come back in future
+- Added New **Path** related functions to Label formatting
+- Added Customizable Speedhack Presets
+- Added **Comment Emojis Integration to Labels**
+- Updated Translations
+-- Fixed Korean Translations (thanks @nyaongi)
+-- Added Arabic Translations (thanks @adamorocco)
+-- Added Right-To-Left language support
+-- Fixed translations not being used in some places
+-- Fixed some UI elements being misplaced after changing language
+-- Fixed some text's incorrectly being in the fallback font
+
+# 1.7.7
+
+- Improved label reordering
+- Fixed Crash using Chest Unlock Bypass
+- Removed "him" from the credits secret
+- Added **Gold Chest Bypass** to Chest Unlock Bypass
+- Added **Localisation / Translations**!!
+-- The language can be changed in the **Config** tab of the mod menu
+
+# 1.7.6
+
+- Fixed level creator appearing as blank in labels for official levels
+- Fixed lag (thanks @prevter)
+- Added **Label Import / Export to file buttons**
+
+# 1.7.5
+
+- Fixed December Menu Snow not working
+- Fixed Unlock Gauntlets not working in some cases
+- Fixed rare crash on completing levels
+- Added API for mod developers to add tabs to the QOLMod UI
+
+# 1.7.5-beta.6
+
+- **Added Labels back on Android**
+-- (i broke it in the last update)
+
+# 1.7.5-beta.5
+
+- **Added Labels back on Android**
+
+# 1.7.5-beta.4
+
+- Fixed crash when closing the mod popup
+- **Temporarily disabled labels on android because it caused crashes!!!**
+
+# 1.7.5-beta.3
+
+- Fixed not being able to input decimal places in the transition speed customizer UI
+- Fixed crash when pressing the info button on the label format page
+- Added support for Geode 4.0.0-beta.1
+- **Added support for Intel macOS**
+
+# 1.7.5-beta.2
+
+- Fixed crash closing the mod menu
+- Fixed crash when adding labels
+- Fixed label toggle box appearing in the wrong position when theres only 1 label
+- Minor label UI changes
+- Removed editor set scale and rotation
+
+# 1.7.5-beta.1
+
+- Fixed best run not working
+- Custom open menu keybinds are not supported in this version
+- **Added support for 2.2074**
+
+# 1.7.4
+
+- Fixed UI Button being really hard to hit when speedhack is really high
+- Improved Show Touches to show the touch trail and not disappear early
+- Fixed Frame Stepper not stepping correctly with tps bypass enabled
+- Added arrows to reorder labels
+- Added toggles to hide labels
+- Added opacity slider to label events
+- Added run info to labels
+- Fixed Unlock Buttons ungreyscaling some wrong buttons
+- Temporarily disabled blur bg because i broke it :broken_heart:
+- Added **Editor Reset Percentage on Save**
+- Added **Hitbox Multiplier**
+- Added **Freeze Attempts**
+- Added **Custom Transition Time**
+- Added **Instant Mirror Portal**
+- Added **Legacy Upside Down Physics**
+- Added **Icon Kit in Pause Menu**
+- Added **Unlock Gauntlets**
+- Added **End Screen Cheat Indicator**
+
+# 1.7.3
+
+- Added new variables to labels
+- Wrote docs for labels that can be viewed with the (i) button the format page
+
+# 1.7.2
+
+- Fixed memory leak while playing a level
+
+# 1.7.1
+
+- Fixed not being able to type decimals in label inputs
+- Fixed opacity being saved as the scale
+- Fixed crash when searching in the mod menu
+- Fixed Duplicate Labels when loading v1.7.0 for the first time
+- Fixed icons with the id 16 and 17 being unlocked with practice unlocker hack enabled
+- Fixed Startpos Switcher starting at 0 (isn't fixed on macOS because of crashes)
+- Removed Speedhack Transition Fix because it was very buggy
+- Made Speedhack Gameplay actually be gameplay only
+
+# 1.7.0
+
+- Added incompatibility with [Text Select](https://github.com/camila314/text-select/) on android
+- Made Icon Effects change colour of objects that use player colour in the level
+- Made Noclip Accuracy not increase once the level ends
+- Frame Stepper no longer saves ticks if you are dead
+- Frame Stepper buttons now repeat presses when being held down
+- Fixed Safe Mode not setting the label to "Safe Mode :3" if the level has coins
+- Added New Geode Themes to the menu
+- Fixed crash in editor with betteredit enabled
+- Added **Blur Menu BG** on macOS
+- Added **No Particles** on macOS
+- Added **Transition Customizer** on macOS
+- Added **Solid Wave Trail** and **No Wave Trail** on macOS
+- Added **Hide Button in Editor**
+- Added **Safe Mode Info Button**
+- Added **Pause Buffering**
+- Added **No Platformer Jump Animation**
+- Added **Force Show Player**
+- Added **Force Hide Player**
+- Added **No Lightning**
+- Added **Chest Unlock Bypass**
+- Added **Noclip Minimum Accuracy**
+- Added **Noclip Per Player**
+- Rewrote **Show Layout** to be better, allowing it to be ported to Windows and macOS
+
+# 1.6.10
+
+- Fixed UI Button speed fading way too fast
+- Ported **No Camera Shake** To Windows and macOS
+- Ported **Pulsing Menu** To Windows and macOS
+
+# 1.6.9
+
+- Fixed lag in game caused by custom fonts
+- Rewrote Copy Hack to work better
+- Fixed Monster Show Hitbox fix being broken with scaling
+- Fixed Event Trigger not detecting player 2 jump
+- Added **Custom Icon Effect Speed**
+
+# 1.6.8
+
+- Fixed checking for updates text being positioned wrong when the Loading Circle is visible
+- Fixed freeze when opening the font picker menu for the first time
+- Fixed Noclip Accuracy being wrong a lot of the time
+- Fixed Show Trajectory unnecessarily running a lot more times than necessary
+- Fixed Click Sounds dying with Show Trajectory enabled
+- Fixed Show Hitboxes not showing the hitbox of 2 monster objects (you know, those guys..)
+- Made Update Available label clickable if an update is available, clicking it opens the mod popup to update the mod
+- Added **Frame Stepper**
+
+# 1.6.7
+
+- Fixed Speedhack not working with physics bypass enabled in cbf
+- Removed the search bar replacing it with version info as it was in older versions
+- If you want to bring it back you can in the <cc>Config</c> tab
+- Added **Toolbox Button Bypass**
+- Added **Scale Text Input**
+- Added **Free Scroll**
+- Added **No Trail Blending**
+- Added **Percentage Level Font**
+- Added **Label Font Customizer**
+- Added **Treasure Room Bypass**
+- Added **Vault of Secrets Bypass**
+- Added **The Challenge Bypass**
+- Added **Basement Bypass**
+- Added **Basement Key Bypass**
+
+# 1.6.6
+
+- Changed Safe Mode to show the endscreen instead of kicking out of the level
+- Added **Editor Extension**
+
+# 1.6.5
+
+- Rewrote old bad code to help improve code readibility
+- Fixed CPS Counter not being reset to white when restarting
+- Fixed blur background looking weird when a blending layer is visible on screen (like loading circles)
+- Ported **Physics Bypass** to Windows
+- Ported **Custom Object Limit Bypass** to All Platforms
+- Added **Stop Triggers on Death**
+
+# 1.6.4
+
+- Removed Percentage Label because it caused the game to crash whenever loading a level on some devices (for some reason idk)
+
+# 1.6.3
+
+- Fixed Custom Message Label text being cut off to 12 characters
+- Fixed Auto Clicker not being considered a cheat by auto safe mode
+- Added **Percentage Label**
+- Ported **Show Trajectory** to 2.206
+- This is a COMPLETE REWRITE of Show Trajectory, Fixing many issues such as portals activating early and the trail disappearing sometimes
+
+# 1.6.2
+
+- Fixed infamous all modes platformer crash
+- Fixed Hitbox Trail saving the trail when show hitboxes is disabled
+- Fixed incompatibility with XDBot rewrite
+- Lowered Max Hitbox Trail count to 200 instead of 500 for performance reasons
+- Added **Decimals to Best Run**
+- Added **Hide From % from 0 to Best Run**
+
+# 1.6.1
+
+- Fixed game loading slowly if speedhack was turned to really low (<0.01)
+- Fixed Editor Wave Trail changing the position while not the wave
+- Transparent BG Now updates live when you change it
+- Added **Hide Pause Menu**
+- Added **Auto Clicker**
+
+# 1.6.0
+
+- Fixed Transparent BG not working on apple devices
+- Fixed the button not appearing in a new scene on apple devices
+- Fixed Coin Collect Circle effect being the wrong colour with Gold User Coins
+- Added **Fake Ball Rotation Bug**
+- Added **Mod Keybinds**
+
+# 1.5.9
+
+- Added **Gold User Coins**
+- Added **No Ship Fire**
+- Added **24 Hour Time** for clock label
+
+# 1.5.8
+
+- Fixed not being able to use checkpoints in platformer with all modes platformer enabled
+- Fixed crash when playtesting with **Force Ghost On** enabled
+- Coins are now collected if you complete a level with 1 attempt practice complete
+
+# 1.5.7
+
+- Fixed Mouse Cursor not disappearing when closing the menu while in a level
+- Fixed not being able to move in platformer mode on arm / m1 macOS
+- Added **Force Ghost Trail On and Off**
+
+# 1.5.6
+
+- Fixed Force Platformer not showing platformer UI on mobile
+- Fixed All Modes Platformer causing crash playtesting
+- Fixed Crash With All Modes Platformer
+- Fixed Crash when tapping really early on the loading screen with Show Touches enabled
+- Made Pause Countdown have a minimum countdown of 1 second
+- Added The Pause Button to the Pause Countdown menu to repause the game on mobile
+- Added **Clock Label**
+
+# 1.5.5
+
+- Fixed Crashing almost all the time on macOS / iOS
+- Fixed mouse cursor not appearing when opening up the mod menu while in a level on macOS
+
+# 1.5.4
+
+- Fixed Dropdown's not being clickable
+- Fixed not being able to search for module options
+- Added **Customizable Noclip Tint Colour**
+- Added **CPS Counter instant colour fade**
+- Added **Customizable Pause Countdown Time**
+- **Added [EXPERIMENTAL] Intel macOS support**
+
+# 1.5.3
+
+- Fixed Crash pressing Q or E in the editor with startpos switcher enabled
+- Fixed the Button disappearing when switching scenes
+- Fixed Noclip not working in the editor
+- Changed the Button to use textures instead of labels
+- Changed Windows to export function symbols for easier crash fixing
+- Added **Labels In Editor**
+- **Added [EXPERIMENTAL] ARM / M1 macOS support**
+
+# 1.5.2
+
+- Fixed Crash removing checkpoints with checkpoint limit bypass enabled (thanks @hiimjustin000)
+- Actually fixed not being able to exit practice mode with Comfirm Practice enabled
+- Fixed not being able to scroll in the qolmod popup
+- Fixed dying in noclip breaking the cps counter
+- FINALLY fixed the touch issues with popups
+- Added **No Dash Fire**
+
+# 1.5.1
+
+- Fixed Globed already loaded level bug
+- Fixed not being able to exit practice mode with Comfirm Practice enabled
+- Fixed not being able to open a level in the editor
+- Added **Editor Wave Trail**
+- Added **Smooth Editor Trail**
+- Added **No Checkpoint Limit**
+
+# 1.5.0
+
+- Fixed Show Hitboxes Colours not loading correctly
+- Fixed Transparent Lists not applying to Leaderboards
+- Fixed Shaders breaking Noclip Tint On Death
+- Fixed Unlock Buttons applying on list pages
+- Fixed Confirm Practice Mode not working for exiting practice mode
+- Fixed the FPS label text appearing as (a body part on girls that i dont think hjfod will let me say on new index) for the first few seconds
+- Fixed No Glow not working
+- Ported **All Modes Platformer** on Windows
+- Ported **Random Seed**
+- Added **No Robot Fire**
+- Added **Best In Percentage**
+- Added **Auto LDM**
+- Added **Auto Collect Coins**
+- Added **No Spider Dash Effect**
+- Added **Longer Trail**
+- Added **Suicide**
+- Added **Best Run Label**
+
+# 1.4.9
+
+- Fixed CPS and FPS counter being broken
+- Fixed dying in noclip causing fps to be wrong
+- Fixed Transparent Lists not applying to Map Packs
+- Added **One Attempt Practice Complete**
+- Added **Coins In Practice**
+
+# 1.4.8
+
+- Removed all imgui code so that wine players can use qolmod
+- Fixed multiple CPS Counter bugs
+- Added Total CPS option to CPS Counter
+- Changed how FPS is counted, should be more accurate
+- Removed F12 keybind by default
+- Fixed more touch issues
+- Renamed TPS Bypass to Physics Bypass
+- Added **Show Touches**
+
+# 1.4.7
+
+- Fixed the UI Button disappearing if you have Transition Customizer enabled
+- Lowered the Hitbox Trail limit to hopefully fix lag
+- Slider Limit Bypass now works on the scale slider in the editor
+- Added **Hide Pause Button**
+- Added **Pause Countdown**
+
+# 1.4.6
+
+- Fixed Touch Issues (now uses geode::Popup<>)
+- Fixed Startpos switcher not switching using keybinds if you have the mod **Custom Keybinds** installed
+- Noclip no longer triggers safe mode if you haven't died this attempt
+- Quests in Pause is now enabled by default
+- Fixed Noclip Accuracy being VERY wrong
+- Fixed Instant Respawn killing the player twice
+- Added **No Short Numbers**
+- Added **Respawn Time Customizer**
+- Added **Smart Startpos**
+
+# 1.4.5
+
+- Fixed Separate Dual Icons and Pride Trails not working
+- Fixed Crash pressing physical keyboard keys on Android
+- Fixed Startpos Switcher not sorting startpos's by X position
+- Fixed Speedhack Triggering Safe Mode even if it is above 1.0
+- Fixed Hitbox Trail not working
+- Fixed Incompatible Modules not being able to be disabled
+- Lowered Default Position of Startpos Switcher UI
+- Added Moveable Startpos Switcher UI
+- Rewrote Safe Mode system
+- Improved Performance by making Force Platformer only apply on level open
+- Added Main Menu Gameplay
+
+# 1.4.4
+
+- Fixed a game softlock when opening the RecordKeyPopup on mobile
+- Fixed the gradient theme not working
+- Fixed not being able to click in the shop
+- Fixed CPS Label not working on Windows
+- Added Main Level Song Bypass (thanks @Capeling)
+- **Added Startpos Switcher**
+
+# 1.4.4-beta.5
+
+- Fixed pressing presets in speedhack section not saving the value
+- Fixed the mod not loading on the latest geode beta
+
+# 1.4.4-beta.4
+
+- Fixed pressing the mod settings button crashing the game
+- Fixed the mod not loading on the latest geode alpha
+
+# 1.4.4-beta.3
+
+- Fixed the mod not loading on the latest geode alpha
+
+# 1.4.4-beta.2
+
+- Fixed tags not showing on the mod index page
+- Fixed **No Respawn Blink** not working on the second player
+- Fixed being able to click invisible inputs
+- Added Show Layout on android
+- Added Pulsing Menu on android
+
+# 1.4.4-beta.1
+
+- Fixed Trail And Wave Trail having the wrong default colour in icon effects
+- Cheat indicator now properly works if Auto Safe Mode is disabled
+- Fixed Transitions being the wrong speed on macos
+- Added Menu Keybind customizer in the mod settings
+- Adjusted Pastel Colour code to be more optimised
+- Removed hide endscreen button as it was added in 2.206
+- Fixed Conditional Auto Retry triggering in practice or platformer mode
+- Changed mod id from **TheSillyDoggo.Cheats** to **thesillydoggo.qolmod** to comply with new index
+- **Added support for 2.206**
+
+# 1.4.3
+
+- Fixed Bass being boosted on some devices
+- Added Trail and Wave Trail options to icon effects
+- Added option to customize the colours used in the fade icon effect mode
+- Added No Orb Pulse
+- Fixed Hide Endscreen putting the button at the bottom of the end screen
+- Fixed Options Button being in the wrong Place with Full Options Menu enabled
+- Icon Effects automatically disable if you have incompatible mods enabled
+
+# 1.4.2
+
+- Added Individual X/Y scale mode in Creator Set Scale
+- Performance Improvements
+- Added Show Level Password
+- Added Pitch Shifter
+- Fixed Being unable to scroll in some layers
+
+# 1.4.1
+
+- Added new 'Darken' theme
+- Added Blur Mod Menu BG (May cause lag on devices with weak gpus)
+- Added No Wave Trail Remove
+- Added Editor Set Scale and Set Rotation functions
+- Removed the [?] button from the universal tab
+- Moved Transition Customizer to its own module
+- Misc UI Related Bug Fixes / Changes
+
+# 1.4.0
+
+- Added Conditional Auto-Retry
+- Added Auto Practice Mode
+- Added Unlock Buttons
+- Added Disable in-game
+- Redesigned the button tab in the config menu, this also resulted in Hide Button being moved to the menu tab
+- Show Layout shows Hidden objects
+- Added an option to customize show layout bg and ground colours
+- Fixed Show Layout making the ground's white
+- Show Layout now disables pulse triggers
+- Fixed Show Triggers making the triggers disappear once they've been on screen
+- Fixed a bug that makes cataclysm and a few other levels impossible
+- Fixed Incompatibility with better pause and being able to click through some popups
+- Fixed Gradient Appearing white
+
+# 1.3.9
+
+- Fixed Crash Playing Levels a second time
+
+# 1.3.8
+
+- Fixed crash on MacOS
+- Removed Pulse Scene because of unnecessary lag
+- Fixed Vertical sliders with slider limit bypass
+- Fixed timewarp messing with the fps counter
+- Added Clicks Per Second Counter
+- Added No **"Do Not"** Flip
+- Mod is now build with a pdb, which basically means crashlogs will show what line in qolmod crashed
+
+# 1.3.7
+
+- Label Corners now save the corner
+- Fixed Crash Playing Levels on Windows
+- Fixed Attempt Count saying nullptr every attempt
+- Increased the amount of numbers you can input in tps bypass to 11
+- FPS Counter now only updates every half of a second instead of every frame
+- Added No Transition and Verify Hack On MacOS
+
+# 1.3.6
+
+- Added Random Seed
+- Improved Performance of a lot of stuff
+- Added Mod Descriptions to Settings Popups
+- Added ability to move labels to different corners
+- Added TPS Bypass
+- Added Main Level Bypass
+- Added Tower Level Bypass
+- Added Slider Limit Bypass
+- Added **[<cl>EXPERIMENTAL</c>]** Mac Support
+
+# 1.3.5
+
+- Show Trajectory shows where you will die
+- Readded Show Layout
+- Fixed another crash opening mod menu
+- Optimised the on screen button
+- Made the mod menu popup scrollable
+- Fixed Spelling mistake in confirm restart
+- Added All Modes Platformer
+- Added Comment History Bypass
+- Added Game Time label
+- Temporarily removed replay because of bugs
+- Redesigned Config Menu
+- Added Search Box
+
+# 1.3.4
+
+- Added customizable message label
+- Temporarily removed show layout because of editor crashes
+- Added Show Trajectory (Beta)
+- Added Instant Fade (Makes the mod menu button instantly disappear instead of slowly fading)
+- Safe Mode Kicks you out of the level now instead of showing the end screen, it was really broken
+- Removed Debug Button from Speedhack
+- Added Speedhack Presets
+- Added Speedhack transition fixes
+
+# 1.3.3
+
+- Fixed windows not being able to open the mod menu, sorry
+- Added No Wave Pulse
+- Added Jump Hack
+
+# 1.3.2
+
+- Fixed startup crash
+
+# 1.3.1
+
+- Fixed bug where fixed hitboxes were shown in the editor even is show hitboxes was disabled
+- Fixed crash playing user levels
+
+# 1.3.0
+
+- Added Coin Finder
+- Fixed crash opening mod menu
+- Added Fixed Hitboxes for players
+- Added Accurate Percentage
+- Added Classic Percentage (before 2.2)
+- Added Show Layout
+- Added Attempts Status Text
+
+# 1.2.9
+
+- Added hitbox colour customizer
+- Fixed hitboxes in mirror portal mode
+- Added no particles on android
+- Added Kill at % (also supports time for platformer)
+- Added Noclip tint on death
+
+# 1.2.8
+
+- Fixed practice hitboxes being broken
+- Added Replay status text
+- Readded thicker hitboxes
+- Added fill hitboxes
+- Made hitbox trail work for 2 player
+- Show Hitboxes is now considered a cheat
+
+# 1.2.7
+
+- Added Hitbox Trail
+- Added Quests in Pause
+
+# 1.2.6
+
+- Added Show Triggers in normal mode
+- Fixed editor crash
+
+# 1.2.5
+
+- Added Pulsing menu and pulsing scene
+- Added Creator category for creator hacks
+- Fixed descriptions being openable multiple times
+- Added Custom Object Limit Bypass (pc only for now)
+- Added Free Scroll
+
+# 1.2.4
+
+- Added Noclip Deaths and Noclip Accuracy
+
+# 1.2.3
+
+- Fixed transparent bg causing textureldr to crash
+- Fixed Typo
+- Added status texts
+
+# 1.2.2
+
+- Fixed Icon Effects
+- made alpha happy ^w^
+- and some other stuff i dont want to write down
+
+# 1.2.1
+
+- Fixed Speedhack
+- Added Verify Hack
+- Improved Safe Mode
+
+# 1.2.0
+
+- Added auto song download
+- Fixed Crash Opening Mod menu
+- Fixed Instant Restart being broken on android 32
+- Added No reverse portal
+- Fixed input nodes
+- Added full options menu
+- Added hide player
+- Added no respawn blink
+- Added All modes platformer (windows only)
+- Added level uncomplete
+- Added show hitboxes and show hitboxes on death
+- Added no static camera
+- Added scale button slider
+- Removed fps bypass since it was VERY broken, replaces with full options menu
+- Fixed Spider and Robot with icon effects
+- Added <cl>Gradient Pages</c> integration
+- Added TAB + Insert hotkeys to open the mod menu
+- Added Replay Bot (beta)
+
+# 1.1.4
+
+- Added additional borders for npesta texture pack users
+- Fixed RobTop levels with the level edit fix
+- Added Force Object Visibility
+- Added No Glow
+- ~~Added Noclip Deaths and Noclip Accuracy~~ it's delayed because this shits annoying to fix
+- Added Alerts to the text bypasses to let the user know that they can crash
+- Added Instant Restart
+- Added Transition Customizer
+- Fixed Solid Wave Trail white being broken
+- Temporarily removed thicker hitboxes due to lag :(
+
+# 1.1.3
+
+- Fixed Level Edit breaking level page, for anyone who used this before the update: Press the ? button in the levels tab while in the broken level. Do this fast as the button WILL BE REMOVED IN THE FUTURE
+- Added Force Trail On and Force Trail Off
+- Added No Camera Shake
+- Added Force Platformer On Android
+- Moved Confirm Practice and Confirm Restart From Universal to Level
+- Added Menu Animations, From Left, From Right, From Top, From Bottom and Scale
+- Added FPS Bypass (Beta)
+- Added Noclip broken slope fix
+- Added ~~Herobrine~~ Zulguroth
+
+# 1.1.2
+
+- Added Level Edit
+- Removed boob dropdown (sad day)
+- Fixed lag with Transparent BG
+
+# 1.1.1
+
+- Added hide endscreen
+- Fixed button not being clickable on the pause menu
+- Re enable text bypasses
+- Fix incorrect menu speed during transition
+- Re-added the text bypasses due to hopefully fixing the crashes
+- Added Transparent BG & Transparent Lists
+- Added Confirm Practice and Confirm Restart
+- Fixed show hitboxes breaking (vanilla one)
+- Added thicker hitboxes
+
+# 1.1.0
+
+- Added Icon Effects (RGB Icons)
+- Added no Wave Trail
+- Removed the text limit bypasses due to crashes, sorry :/
+- Created an official [Discord Server](https://discord.gg/DfQSTEnQKK)
+
+# 1.0.3
+
+- Added back the button wheh in gameplay
+- Fixed pause crash with speedhack
+
+# 1.0.2
+
+- Fixed crash when playing user levels
+- Added character filter and character limit bypass
+- ~~Fixed balls duplicating~~ nvm i broke it :(
+- Pause menu is still broken, if you can't click any buttons press esc or the back button on your phone (the arrow)
+- Added No Particles, No Shaders, Text Limit Bypass, Text Character Bypass and Speedhack Music
+
+# 1.0.1
+
+- Fixed force priority issues in newest geode build
+- Fixed absolllutes credits button being bigger on medium and low graphics
+- Added trash button next to speedhack input
+- Fixed crashes on some phones when changing menus
+
+# 1.0.0
+
+- Initial Release

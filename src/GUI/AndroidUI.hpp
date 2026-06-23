@@ -15,6 +15,8 @@
 
 using namespace geode::prelude;
 
+class BetterSlider;
+
 class AndroidUI : public PopupBase, public qolmod::AltMouseDelegate
 {
     protected:
@@ -39,10 +41,13 @@ class AndroidUI : public PopupBase, public qolmod::AltMouseDelegate
         // itzz: komplett neues UI
         cocos2d::CCMenu* m_sideMenu = nullptr;
         geode::ScrollLayer* m_list = nullptr;
+        BetterSlider* m_speedSlider = nullptr;
+        cocos2d::CCLabelBMFont* m_speedVal = nullptr;
         void itzzBuildSidebar();
         void itzzRebuildList();
         void itzzOnCategory(cocos2d::CCObject* sender);
         void itzzOnToggle(cocos2d::CCObject* sender);
+        void itzzOnSlider(cocos2d::CCObject* sender);
 
         std::vector<std::string> categoryOrders =
         {

@@ -2,6 +2,8 @@
 #include <Geode/ui/ScrollLayer.hpp>
 #include "FloatingButton/FloatingUIManager.hpp"
 #include "AndroidBall.hpp"
+#include "BetterSlider.hpp"
+#include "../Features/Speedhack/Speedhack.hpp"
 #include <Gestures/GestureManager.hpp>
 #include "Modules/DisableOpenInLevel.hpp"
 #include <algorithm>
@@ -46,11 +48,20 @@ bool AndroidUI::setup()
     auto divider = CCLayerColor::create(ccc4(227, 227, 224, 255), 1.f, h - 30.f);
     m_mainLayer->addChildAtPosition(divider, Anchor::BottomLeft, ccp(140, 15));
 
-    // Titel
-    auto title = CCLabelBMFont::create("ITZZ", "lexend.fnt"_spr);
-    title->setColor(ITZZ_TEXTD);
-    title->setScale(0.42f);
-    m_mainLayer->addChildAtPosition(title, Anchor::BottomLeft, ccp(w / 2.f, h - 14.f));
+    // Chrome-Logo in der oberen Leiste (Fallback: Text)
+    auto logo = CCSprite::create((std::string(GEODE_MOD_ID) + "/itzz-logo.png").c_str());
+    if (logo && logo->getContentSize().height > 0)
+    {
+        logo->setScale(26.f / logo->getContentSize().height);
+        m_mainLayer->addChildAtPosition(logo, Anchor::BottomLeft, ccp(w / 2.f, h - 16.f));
+    }
+    else
+    {
+        auto title = CCLabelBMFont::create("ITZZ", "lexend.fnt"_spr);
+        title->setColor(ITZZ_TEXTD);
+        title->setScale(0.42f);
+        m_mainLayer->addChildAtPosition(title, Anchor::BottomLeft, ccp(w / 2.f, h - 14.f));
+    }
 
     itzzBuildSidebar();
     itzzRebuildList();
@@ -134,6 +145,8 @@ void AndroidUI::itzzRebuildList()
 {
     if (m_list)
         m_list->removeFromParent();
+    m_speedSlider = nullptr;
+    m_speedVal = nullptr;
 
     float lx = 148.f;
     float ly = 14.f;
@@ -166,7 +179,9 @@ void AndroidUI::itzzRebuildList()
     }
 
     float rowH = 27.f;
-    float totalH = std::max(lh, mods.size() * rowH + 6.f);
+    float headerH = (selectedCategory == "Icon") ? 132.f : 0.f;       // Vorschau oben
+    float footerH = (selectedCategory == "Speedhack") ? 78.f : 0.f;   // Slider unten
+    float totalH = std::max(lh, mods.size() * rowH + 6.f + headerH + footerH);
     m_list->m_contentLayer->setContentSize(CCSize(lw, totalH));
 
     auto rowMenu = CCMenu::create();
@@ -176,7 +191,38 @@ void AndroidUI::itzzRebuildList()
     rowMenu->setPosition(0, 0);
     m_list->m_contentLayer->addChild(rowMenu);
 
-    float y = totalH - rowH / 2.f - 3.f;
+    // --- Icon-Vorschau: rotierender Stern in einer Box ---
+    if (selectedCategory == "Icon")
+    {
+        float cy = totalH - headerH / 2.f + 6.f;
+        auto box = CCScale9Sprite::create("square02b_small.png");
+        if (box)
+        {
+            box->setColor(ccc3(243, 243, 241));
+            box->setContentSize(ccp(lw - 24.f, headerH - 30.f));
+            box->setPosition(ccp(lw / 2.f, cy));
+            m_list->m_contentLayer->addChild(box);
+        }
+
+        auto star = CCSprite::createWithSpriteFrameName("itzz-star.png"_spr);
+        if (!star)
+            star = CCSprite::create((std::string(GEODE_MOD_ID) + "/itzz-star.png").c_str());
+        if (star && star->getContentSize().height > 0)
+        {
+            star->setScale((headerH - 64.f) / star->getContentSize().height);
+            star->setPosition(ccp(lw / 2.f, cy));
+            star->runAction(CCRepeatForever::create(CCRotateBy::create(3.f, 360.f)));
+            m_list->m_contentLayer->addChild(star);
+        }
+
+        auto cap = CCLabelBMFont::create("CUBE ICON PREVIEW", "lexend.fnt"_spr);
+        cap->setColor(ITZZ_TEXTD);
+        cap->setScale(0.26f);
+        cap->setPosition(ccp(lw / 2.f, totalH - headerH + 14.f));
+        m_list->m_contentLayer->addChild(cap);
+    }
+
+    float y = totalH - headerH - rowH / 2.f - 3.f;
     for (auto m : mods)
     {
         auto off = CCSprite::createWithSpriteFrameName("yz_checkbox_empty.png"_spr);
@@ -203,6 +249,35 @@ void AndroidUI::itzzRebuildList()
         y -= rowH;
     }
 
+    // --- Speedhack: Slider fuer den Geschwindigkeits-Multiplikator ---
+    if (selectedCategory == "Speedhack")
+    {
+        auto sh = Speedhack::get();
+        float sy = y - 4.f;
+
+        auto cap = CCLabelBMFont::create("SPEED MULTIPLIER", "lexend.fnt"_spr);
+        cap->setColor(ITZZ_TEXTD);
+        cap->setScale(0.26f);
+        cap->setAnchorPoint(ccp(0, 0.5f));
+        cap->setPosition(ccp(18.f, sy));
+        m_list->m_contentLayer->addChild(cap);
+
+        m_speedVal = CCLabelBMFont::create(fmt::format("{:.2f}x", sh->getValue()).c_str(), "lexend.fnt"_spr);
+        m_speedVal->setColor(ITZZ_TEXT);
+        m_speedVal->setScale(0.3f);
+        m_speedVal->setAnchorPoint(ccp(1, 0.5f));
+        m_speedVal->setPosition(ccp(lw - 14.f, sy));
+        m_list->m_contentLayer->addChild(m_speedVal);
+
+        m_speedSlider = BetterSlider::create(this, menu_selector(AndroidUI::itzzOnSlider));
+        m_speedSlider->setRange(0.1f, 3.0f);
+        m_speedSlider->setSnapValuesRanged({ 1.0f });
+        m_speedSlider->setValueRanged(sh->getValue());
+        m_speedSlider->setScale(0.82f);
+        m_speedSlider->setPosition(ccp(lw / 2.f, sy - 26.f));
+        m_list->m_contentLayer->addChild(m_speedSlider);
+    }
+
     m_list->moveToTop();
 }
 
@@ -225,6 +300,16 @@ void AndroidUI::itzzOnToggle(CCObject* sender)
         return;
     if (auto m = Module::getByID(s->getCString()))
         m->setUserEnabled(!m->getRealEnabled());
+}
+
+void AndroidUI::itzzOnSlider(CCObject* sender)
+{
+    if (!m_speedSlider)
+        return;
+    float v = m_speedSlider->getValueRanged();
+    Speedhack::get()->setText(fmt::format("{:.02f}", v));
+    if (m_speedVal)
+        m_speedVal->setString(fmt::format("{:.2f}x", v).c_str());
 }
 
 // --- alte Methoden: neutralisiert ---

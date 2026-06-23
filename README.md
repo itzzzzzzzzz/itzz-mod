@@ -1,15 +1,13 @@
 # itzz mod
 
-A free mod menu for Geometry Dash, with **a user friendly interface** and **over 70 features** to help improve your Geometry Dash experience such as **Speedhack, Show Hitboxes, Noclip** and **much** more!
-
-If you have any issues with the mod, you can join our [Discord server](https://discord.gg/DfQSTEnQKK) for help!
+itzz is a **tuff** mod menu for gd
+ts is kinda cool
+**this mod is really fresh i WILL update and add massive feutures in the future** tell me what i should add
 
 # How to use
 
-- On Windows and Mac, press **Tab** on your keyboard.
-- On Android, press the button on your screen to open the mod menu.
+download the mod and than press tab or that new strange looking button on mobile
 
-# Credits
+# To geode
 
-> Category icons
->> https://www.flaticon.com/
+pls aproove this

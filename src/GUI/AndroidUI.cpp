@@ -16,7 +16,7 @@ using namespace qolmod;
 // itzz: minimalistisches UI (Lexend, off-white Panel, graue Checkboxen)
 
 static const std::vector<std::string> ITZZ_CATS = {
-    "Level", "Universal", "Click Sounds", "Icon", "Speedhack"
+    "Level", "Universal", "Click Sounds", "Icon", "Speedhack", "Autoplay"
 };
 
 static std::string itzzUpper(std::string s)
@@ -85,6 +85,7 @@ void AndroidUI::itzzBuildSidebar()
         {"Click Sounds", "yeezy_ic_cosmetic_sparkle.png"},
         {"Icon", "yeezy_ic_icon_effects_key.png"},
         {"Speedhack", "yeezy_ic_speed_clock.png"},
+        {"Autoplay", "yeezy_ic_shortcuts_arrow.png"},
     };
 
     float top = m_size.height - 52.f;

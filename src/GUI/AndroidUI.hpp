@@ -56,6 +56,7 @@ class AndroidUI : public PopupBase, public qolmod::AltMouseDelegate
             "Click Sounds",
             "Icon",
             "Speedhack",
+            "Autoplay",
             // itzz: entfernte Tabs (Creator, Cosmetic, Icon Effects, Labels, Shortcuts, Config)
             "spacer",
             "Search",

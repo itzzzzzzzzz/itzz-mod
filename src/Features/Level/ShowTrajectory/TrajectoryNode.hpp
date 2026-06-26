@@ -28,6 +28,9 @@ namespace qolmod
 
             bool isSimulating();
             void simulate(PlayerObject* plr, bool held);
+            // itzz Autoplay: simuliert plr 'steps' Schritte mit gehaltenem/losgelassenem Sprung
+            // und liefert, wie viele Schritte ueberlebt werden (steps = ganzer Horizont ueberlebt).
+            int simulateSurvival(PlayerObject* plr, bool held, int steps = 0);
             void simulateFromRing(PlayerObject* player, RingObject* ring);
             void performSimulation(cocos2d::ccColor4F colour, bool useTrail, bool isOrb);
 

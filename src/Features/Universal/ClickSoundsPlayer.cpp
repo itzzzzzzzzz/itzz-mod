@@ -2,6 +2,7 @@
 #include <Geode/modify/PlayerObject.hpp>
 #include "../../Client/Module.hpp"
 #include "../../Client/EnumModule.hpp"
+#include "../Level/ShowTrajectory/TrajectoryNode.hpp"
 #include <cstdlib>
 #include <unordered_map>
 
@@ -38,6 +39,9 @@ static bool csInLevelOrEditor()
 
 static bool csShouldPlay(PlayerButton btn)
 {
+    // Kein Sound waehrend der Trajectory-/Autoplay-Simulation (Klon-Spieler)
+    if (qolmod::TrajectoryNode::get() && qolmod::TrajectoryNode::get()->isSimulating())
+        return false;
     if (!csOn("cs-master"))
         return false;
     if (!csOn("cs-everywhere") && !csInLevelOrEditor())

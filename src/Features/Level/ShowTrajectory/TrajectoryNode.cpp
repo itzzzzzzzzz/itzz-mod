@@ -143,6 +143,58 @@ void TrajectoryNode::simulate(PlayerObject* plr, bool held)
     simulating = false;
 }
 
+int TrajectoryNode::simulateSurvival(PlayerObject* plr, bool held, int steps)
+{
+    if (!plr || plr->m_isDead)
+        return 0;
+
+    if (steps <= 0)
+        steps = getIterCount();
+
+    simulating = true;
+    ringSimulated = !held;
+    simulatedRings.clear();
+
+    PlayerState state;
+    state.saveState(plr);
+    state.loadState(this->player);
+
+    // Sprung-Input setzen (wie in simulate())
+    if (
+        (held && state.plMembers.m_dashRing) ||
+        (held && state.plMembers.m_isRobot && state.plMembers.m_holdingButtons[(int)PlayerButton::Jump])
+    ) {}
+    else
+    {
+        player->releaseButton(PlayerButton::Jump);
+        if (held)
+            player->pushButton(PlayerButton::Jump);
+    }
+
+    int survived = steps;
+    for (int i = 0; i < steps; i++)
+    {
+        player->m_collisionLogTop->removeAllObjects();
+        player->m_collisionLogBottom->removeAllObjects();
+        player->m_collisionLogLeft->removeAllObjects();
+        player->m_collisionLogRight->removeAllObjects();
+
+        player->update(deltaIter);
+        gjbgl->checkCollisions(player, deltaIter, false);
+        player->updateRotation(deltaIter);
+        player->updatePlayerScale();
+
+        if (player->m_isDead)
+        {
+            survived = i;
+            break;
+        }
+    }
+
+    simulating = false;
+    return survived;
+}
+
 void TrajectoryNode::simulateFromRing(PlayerObject* player2, RingObject* ring)
 {
     return;

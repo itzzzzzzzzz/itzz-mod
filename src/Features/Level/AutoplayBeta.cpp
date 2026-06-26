@@ -26,18 +26,37 @@ class AutoplayBeta : public Module
 
 SUBMIT_HACK(AutoplayBeta);
 
-// liefert true, wenn Sprung gehalten werden soll
-static bool autoplayDecide(PlayerObject* plr)
+// Lookahead-Horizont in Sim-Schritten (deltaIter=0.5). Kuerzer = spaeteres,
+// praeziseres Springen (Cube); laenger = mehr Voraussicht (Ship/Wave).
+static const int AP_HORIZON     = 140;
+static const int AP_SAFE_MARGIN = 14; // gilt als "sicher", wenn so lange ueberlebt wird
+static const int AP_HYSTERESIS  = 12; // daempft Hin-und-Her-Kippen
+
+// liefert true, wenn der Sprung (weiter) gehalten werden soll.
+// currentlyHolding = aktueller Eingabezustand (fuer Hysterese).
+static bool autoplayDecide(PlayerObject* plr, bool currentlyHolding)
 {
     auto tn = TrajectoryNode::get();
     if (!tn || !plr || plr->m_isDead)
         return false;
 
-    int sHold    = tn->simulateSurvival(plr, true);
-    int sRelease = tn->simulateSurvival(plr, false);
+    int safe = AP_HORIZON - AP_SAFE_MARGIN;
 
-    // bei Gleichstand NICHT springen (haelt den Cube am Boden, Ship faellt ruhig)
-    return sHold > sRelease;
+    // 1) Loslassen ueberlebt lange genug -> NICHT springen (Cube bleibt am Boden ruhig)
+    int sRelease = tn->simulateSurvival(plr, false, AP_HORIZON);
+    if (sRelease >= safe)
+        return false;
+
+    // 2) Loslassen waere toedlich -> pruefen, ob Halten rettet
+    int sHold = tn->simulateSurvival(plr, true, AP_HORIZON);
+    if (sHold >= safe)
+        return true;
+
+    // 3) Beide sterben -> die deutlich laenger ueberlebende Option waehlen.
+    //    Hysterese: am aktuellen Zustand festhalten, solange die Alternative
+    //    nicht klar besser ist -> verhindert Frame-genaues Flackern.
+    int margin = currentlyHolding ? -AP_HYSTERESIS : AP_HYSTERESIS;
+    return sHold > sRelease + margin;
 }
 
 class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
@@ -53,7 +72,7 @@ class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
         if (!plr || plr->m_isDead)
             return;
 
-        bool want = autoplayDecide(plr);
+        bool want = autoplayDecide(plr, state);
         if (want != state)
         {
             this->GJBaseGameLayer::handleButton(want, (int)PlayerButton::Jump, isPlayer1);

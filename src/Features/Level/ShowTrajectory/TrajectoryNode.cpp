@@ -195,6 +195,39 @@ int TrajectoryNode::simulateSurvival(PlayerObject* plr, bool held, int steps)
     return survived;
 }
 
+void TrajectoryNode::apLoadFrom(PlayerObject* from)
+{
+    PlayerState s;
+    s.saveState(from);
+    s.loadState(this->player);
+}
+
+void TrajectoryNode::apHold(bool held)
+{
+    // Dash-Ring haelt sich selbst -> nicht neu druecken
+    if (held && this->player->m_dashRing)
+        return;
+
+    this->player->releaseButton(PlayerButton::Jump);
+    if (held)
+        this->player->pushButton(PlayerButton::Jump);
+}
+
+bool TrajectoryNode::apStep()
+{
+    player->m_collisionLogTop->removeAllObjects();
+    player->m_collisionLogBottom->removeAllObjects();
+    player->m_collisionLogLeft->removeAllObjects();
+    player->m_collisionLogRight->removeAllObjects();
+
+    player->update(deltaIter);
+    gjbgl->checkCollisions(player, deltaIter, false);
+    player->updateRotation(deltaIter);
+    player->updatePlayerScale();
+
+    return !player->m_isDead;
+}
+
 void TrajectoryNode::simulateFromRing(PlayerObject* player2, RingObject* ring)
 {
     return;

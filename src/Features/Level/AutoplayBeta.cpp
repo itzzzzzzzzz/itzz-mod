@@ -3,9 +3,11 @@
 #include "ShowTrajectory/TrajectoryNode.hpp"
 #include "CheckpointFix/PlayerState.hpp"
 #include <Geode/modify/GJBaseGameLayer.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <fstream>
 
 using namespace geode::prelude;
 using namespace qolmod;
@@ -31,6 +33,69 @@ class AutoplayBeta : public Module
 };
 
 SUBMIT_HACK(AutoplayBeta);
+
+// --- Macro: frame-genaues Aufnehmen/Abspielen echter Eingaben (deterministisch) ---
+class MacroRecord : public Module
+{
+    public:
+        MODULE_SETUP(MacroRecord)
+        {
+            setName("Record Macro");
+            setID("macro-record");
+            setCategory("Autoplay");
+        }
+};
+
+class MacroReplay : public Module
+{
+    public:
+        MODULE_SETUP(MacroReplay)
+        {
+            setName("Replay Macro");
+            setID("macro-replay");
+            setCategory("Autoplay");
+        }
+};
+
+SUBMIT_HACK(MacroRecord);
+SUBMIT_HACK(MacroReplay);
+
+struct MacroFrame { int frame; bool p1; bool p2; };
+static std::vector<MacroFrame> g_macro;
+static int    g_frame     = 0;
+static size_t g_replayIdx = 0;
+static bool   g_repP1 = false, g_repP2 = false; // aktuell abgespielter Zustand
+static bool   g_recP1 = false, g_recP2 = false; // zuletzt aufgenommener Zustand
+
+static std::string macroFile()
+{
+    return (Mod::get()->getSaveDir() / "macro.gdm").string();
+}
+
+static void macroSave()
+{
+    std::ofstream f(macroFile());
+    if (!f) return;
+    f << g_macro.size() << "\n";
+    for (auto& m : g_macro)
+        f << m.frame << " " << (m.p1 ? 1 : 0) << " " << (m.p2 ? 1 : 0) << "\n";
+}
+
+static void macroLoad()
+{
+    std::ifstream f(macroFile());
+    if (!f) return;
+    g_macro.clear();
+    size_t n = 0;
+    f >> n;
+    for (size_t i = 0; i < n; i++)
+    {
+        MacroFrame m; int a = 0, b = 0;
+        if (!(f >> m.frame >> a >> b)) break;
+        m.p1 = a; m.p2 = b;
+        g_macro.push_back(m);
+    }
+}
 
 static const int AP_H       = 150; // Lookahead in Sim-Schritten
 static const int AP_DEPTH   = 1;   // Suchtiefe (1 = schlank/fluessig; hoeher = mehr Last)
@@ -265,6 +330,30 @@ class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
         }
     }
 
+    // Macro abspielen: aufgenommene Eingaben fuer den aktuellen Frame anwenden
+    void macroApplyReplay()
+    {
+        while (g_replayIdx < g_macro.size() && g_macro[g_replayIdx].frame <= g_frame)
+        {
+            auto& m = g_macro[g_replayIdx];
+            if (m.p1 != g_repP1) { this->GJBaseGameLayer::handleButton(m.p1, (int)PlayerButton::Jump, true);  g_repP1 = m.p1; }
+            if (m.p2 != g_repP2) { this->GJBaseGameLayer::handleButton(m.p2, (int)PlayerButton::Jump, false); g_repP2 = m.p2; }
+            g_replayIdx++;
+        }
+    }
+
+    // Macro aufnehmen: tatsaechlichen Eingabezustand dieses Frames festhalten
+    void macroRecordFrame()
+    {
+        bool p1 = m_player1 && m_player1->m_holdingButtons[(int)PlayerButton::Jump];
+        bool p2 = m_player2 && m_player2->m_holdingButtons[(int)PlayerButton::Jump];
+        if (g_macro.empty() || p1 != g_recP1 || p2 != g_recP2)
+        {
+            g_macro.push_back({ g_frame, p1, p2 });
+            g_recP1 = p1; g_recP2 = p2;
+        }
+    }
+
     #if GEODE_COMP_GD_VERSION >= 22081
     void processQueuedButtons(float dt, bool clearInputQueue)
     #else
@@ -273,18 +362,32 @@ class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
     {
         auto pl = PlayLayer::get();
         auto tn = TrajectoryNode::get();
-        bool on = AutoplayBeta::get()->getRealEnabled() && pl && !pl->m_isPaused;
+        bool playing = pl && !pl->m_isPaused;
+
+        bool autoOn = AutoplayBeta::get()->getRealEnabled();
+        bool recOn  = MacroRecord::get()->getRealEnabled();
+        bool repOn  = MacroReplay::get()->getRealEnabled();
 
         if (tn)
-            tn->apDrawPath = on;
+            tn->apDrawPath = autoOn && playing && !repOn;
 
-        if (on)
+        if (playing)
         {
             auto fields = m_fields.self();
-            applyAutoplay(m_player1, true, fields->p1State, true);
 
-            if (m_player2 && m_gameState.m_isDualMode)
-                applyAutoplay(m_player2, false, fields->p2State, false);
+            if (repOn && !g_macro.empty())
+            {
+                macroApplyReplay();
+            }
+            else if (autoOn)
+            {
+                applyAutoplay(m_player1, true, fields->p1State, true);
+                if (m_player2 && m_gameState.m_isDualMode)
+                    applyAutoplay(m_player2, false, fields->p2State, false);
+            }
+
+            if (recOn)
+                macroRecordFrame();
         }
 
         #if GEODE_COMP_GD_VERSION >= 22081
@@ -292,6 +395,9 @@ class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
         #else
         GJBaseGameLayer::processQueuedButtons();
         #endif
+
+        if (playing)
+            g_frame++;
     }
 
     void resetLevelVariables()
@@ -300,5 +406,27 @@ class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
 
         m_fields->p1State = false;
         m_fields->p2State = false;
+
+        g_frame = 0;
+        g_replayIdx = 0;
+        g_repP1 = g_repP2 = false;
+        g_recP1 = g_recP2 = false;
+
+        if (MacroReplay::get()->getRealEnabled())
+            macroLoad();                 // Aufnahme fuer diesen Versuch laden
+        else if (MacroRecord::get()->getRealEnabled())
+            g_macro.clear();             // neue Aufnahme beginnen
+    }
+};
+
+// Bei Levelabschluss waehrend der Aufnahme das (erfolgreiche) Macro speichern
+class $modify(MacroPlayLayer, PlayLayer)
+{
+    void levelComplete()
+    {
+        PlayLayer::levelComplete();
+
+        if (MacroRecord::get()->getRealEnabled() && !g_macro.empty())
+            macroSave();
     }
 };

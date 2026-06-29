@@ -32,10 +32,11 @@ class AutoplayBeta : public Module
 
 SUBMIT_HACK(AutoplayBeta);
 
-static const int AP_H       = 160; // Lookahead in Sim-Schritten
-static const int AP_DEPTH   = 3;   // Suchtiefe (Anzahl Eingriffe in Folge)
-static const int AP_MAXCAND = 10;  // max. gepruefte Eingriffs-Zeitpunkte pro Ebene
+static const int AP_H       = 150; // Lookahead in Sim-Schritten
+static const int AP_DEPTH   = 1;   // Suchtiefe (1 = schlank/fluessig; hoeher = mehr Last)
+static const int AP_MAXCAND = 12;  // max. gepruefte Eingriffs-Zeitpunkte pro Ebene
 static const int AP_HYST    = 8;   // Hysterese (Hold-Modi)
+static const int AP_LATENCY = 1;   // Eingabe-Latenz in Schritten -> einen Tick frueher druecken
 
 static bool apIsHoldMode(PlayerObject* p)
 {
@@ -53,13 +54,47 @@ static int apRollout(TrajectoryNode* tn, bool hold, int steps)
     return steps;
 }
 
+// Crash-sicheres Orb-Velocity-Modell (kein echter Spielcode auf dem Klon).
+// Naeherung pro Orb-Typ und Spielmodus.
+static void apFireOrb(PlayerObject* p, RingObject* ring)
+{
+    float yellow = 11.18f;
+    float base = yellow;
+    if (p->m_isShip)        base = 8.0f;
+    else if (p->m_isBall)   base = yellow * 0.7f;
+    else if (p->m_isBird)   base = 8.0f;
+    else if (p->m_isDart)   base = 6.0f;
+    else if (p->m_isRobot)  base = yellow * 0.9f;
+    else if (p->m_isSpider) base = yellow * 0.7f;
+    else if (p->m_isSwing)  base = yellow * 0.6f;
+
+    float mult = 1.0f;
+    bool flip = false;
+    switch (ring->m_objectType)
+    {
+        case GameObjectType::PinkJumpRing: mult = 0.55f; break;
+        case GameObjectType::RedJumpRing:  mult = 1.6f;  break;
+        case GameObjectType::GravityRing:  flip = true; mult = 0.8f; break; // blau
+        case GameObjectType::GreenRing:    flip = true; mult = 1.0f; break;
+        case GameObjectType::DropRing:     mult = 1.0f; break;
+        case GameObjectType::YellowJumpRing:
+        default:                           mult = 1.0f; break;
+    }
+
+    if (flip)
+        p->m_isUpsideDown = !p->m_isUpsideDown;
+
+    float s = p->m_isUpsideDown ? -1.0f : 1.0f;
+    p->m_yVelocity = base * mult * s;
+}
+
 // Fuehrt am aktuellen Klon-Zustand den Eingriff aus: Orb feuern bzw. Sprung druecken,
 // dann genau EINEN Schritt. true = noch am Leben.
 static bool apIntervene(TrajectoryNode* tn, RingObject* ring)
 {
     if (ring)
     {
-        tn->apClone()->ringJump(ring, false); // deterministische, echte Orb-Physik
+        apFireOrb(tn->apClone(), ring); // sicheres Velocity-Modell
         tn->apHold(false);
     }
     else
@@ -160,7 +195,8 @@ static bool apDecide(PlayerObject* plr, bool holdingNow, bool recordViz)
         int firstT;
         int reach = apSearchTap(tn, AP_H, AP_DEPTH, firstT);
         (void)reach;
-        press = (firstT == 0);
+        // Latenz-Kompensation: einen Tick frueher druecken (gegen "zu spaet geklickt")
+        press = (firstT >= 0 && firstT <= AP_LATENCY);
         vizFirstT = firstT;
 
         // fuer die Visualisierung: war der erste Eingriff ein Orb?

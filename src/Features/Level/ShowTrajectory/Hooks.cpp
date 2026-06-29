@@ -188,8 +188,8 @@ class $modify(GJBaseGameLayer)
     bool canBeActivatedByPlayer(PlayerObject* p0, EffectGameObject* p1)
     {
         auto tn = TrajectoryNode::get();
-        // Autoplay-Sim darf Orbs/Pads aktivieren (echte Physik); normale Trajectory-Sim nicht.
-        if (tn && tn->isSimulating() && !tn->isAutoplaySim())
+        // Waehrend JEDER Simulation keinen echten Spielcode (Trigger/Activate) ausfuehren.
+        if (tn && tn->isSimulating())
             return false;
 
         return GJBaseGameLayer::canBeActivatedByPlayer(p0, p1);
@@ -205,11 +205,10 @@ class $modify(GJBaseGameLayer)
             return;
         }
 
+        // Autoplay-Sim: Orb nur MERKEN (Velocity-Modell feuert ihn im Planer) -> crash-sicher.
         if (tn->isAutoplaySim())
         {
-            // Orb verfuegbar merken + echte Orb-Physik auf dem Klon ausfuehren
             tn->apOrbThisStep = p1;
-            GJBaseGameLayer::playerTouchedRing(p0, p1);
             return;
         }
 
@@ -260,8 +259,8 @@ class $modify(PlayerObject)
     void ringJump(RingObject * p0, bool p1)
     {
         auto tn = TrajectoryNode::get();
-        // Orb darf auch in der Autoplay-Sim feuern (echte Physik fuer alle Orb-Typen)
-        if (!tn || !tn->isSimulating() || tn->isAutoplaySim())
+        // Im Sim niemals echten ringJump ausfuehren (war die Crash-Ursache).
+        if (!tn || !tn->isSimulating())
             PlayerObject::ringJump(p0, p1);
     }
 

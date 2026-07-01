@@ -57,8 +57,21 @@ class MacroReplay : public Module
         }
 };
 
+// Offline-Solver: rechnet das ganze Level per Beam-Suche voraus und baut ein Macro.
+class AutoSolve : public Module
+{
+    public:
+        MODULE_SETUP(AutoSolve)
+        {
+            setName("Auto Solve (exp.)");
+            setID("auto-solve");
+            setCategory("Autoplay");
+        }
+};
+
 SUBMIT_HACK(MacroRecord);
 SUBMIT_HACK(MacroReplay);
+SUBMIT_HACK(AutoSolve);
 
 struct MacroFrame { int frame; bool p1; bool p2; };
 static std::vector<MacroFrame> g_macro;
@@ -66,6 +79,7 @@ static int    g_frame     = 0;
 static size_t g_replayIdx = 0;
 static bool   g_repP1 = false, g_repP2 = false; // aktuell abgespielter Zustand
 static bool   g_recP1 = false, g_recP2 = false; // zuletzt aufgenommener Zustand
+static bool   g_solved = false;                 // Solver hat dieses Level schon berechnet
 
 static std::string macroFile()
 {
@@ -309,6 +323,89 @@ static bool apDecide(PlayerObject* plr, bool holdingNow, bool recordViz)
     return press;
 }
 
+// Offline-Beam-Suche: rechnet das ganze Level voraus und baut g_macro (frame-genau).
+// Exakt fuer Sprung/Block/Spike/Pad/Portal-Level (Sim = echte Physik). Orbs: Naeherung.
+static void apSolve(PlayerObject* startPlr)
+{
+    auto tn = TrajectoryNode::get();
+    g_macro.clear();
+    if (!tn || !startPlr)
+        return;
+
+    const int  MAXF   = 30000;   // max. Frames Vorausrechnung
+    const int  BEAM   = 16;      // parallel verfolgte beste Pfade
+    const long BUDGET = 900000;  // max. Simulationsschritte (begrenzt die Freeze-Zeit)
+
+    struct Node { PlayerState st; std::vector<char> hist; float x; };
+
+    tn->apBegin();
+    tn->apLoadFrom(startPlr);
+
+    std::vector<Node> frontier;
+    {
+        Node n;
+        n.st.saveState(tn->apClone());
+        n.x = tn->apClone()->getPositionX();
+        frontier.push_back(std::move(n));
+    }
+
+    Node best = frontier[0];
+    long steps = 0;
+
+    for (int f = 0; f < MAXF && steps < BUDGET && !frontier.empty(); f++)
+    {
+        std::vector<Node> children;
+        children.reserve(frontier.size() * 2);
+
+        for (auto& s : frontier)
+        {
+            for (int inp = 0; inp < 2; inp++)
+            {
+                s.st.loadState(tn->apClone());
+                tn->apHold(inp != 0);
+                bool alive = tn->apStep();
+                steps++;
+                if (!alive)
+                    continue;
+
+                Node c;
+                c.st.saveState(tn->apClone());
+                c.x = tn->apClone()->getPositionX();
+                c.hist = s.hist;
+                c.hist.push_back((char)inp);
+                children.push_back(std::move(c));
+            }
+        }
+
+        if (children.empty())
+            break; // alle Pfade tot
+
+        std::sort(children.begin(), children.end(),
+                  [](const Node& a, const Node& b) { return a.x > b.x; });
+        if ((int)children.size() > BEAM)
+            children.resize(BEAM);
+
+        frontier = std::move(children);
+        if (frontier[0].x > best.x)
+            best = frontier[0];
+    }
+
+    tn->apEnd();
+
+    // besten Pfad -> Macro (Kanten des Eingabezustands)
+    g_macro.clear();
+    bool last = false;
+    for (size_t i = 0; i < best.hist.size(); i++)
+    {
+        bool p1 = best.hist[i] != 0;
+        if (i == 0 || p1 != last)
+        {
+            g_macro.push_back({ (int)i, p1, false });
+            last = p1;
+        }
+    }
+}
+
 class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
 {
     struct Fields
@@ -364,18 +461,22 @@ class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
         auto tn = TrajectoryNode::get();
         bool playing = pl && !pl->m_isPaused;
 
-        bool autoOn = AutoplayBeta::get()->getRealEnabled();
-        bool recOn  = MacroRecord::get()->getRealEnabled();
-        bool repOn  = MacroReplay::get()->getRealEnabled();
+        bool autoOn  = AutoplayBeta::get()->getRealEnabled();
+        bool recOn   = MacroRecord::get()->getRealEnabled();
+        bool repOn   = MacroReplay::get()->getRealEnabled();
+        bool solveOn = AutoSolve::get()->getRealEnabled();
+
+        if (!solveOn)
+            g_solved = false;
 
         if (tn)
-            tn->apDrawPath = autoOn && playing && !repOn;
+            tn->apDrawPath = autoOn && playing && !repOn && !solveOn;
 
         if (playing)
         {
             auto fields = m_fields.self();
 
-            if (repOn && !g_macro.empty())
+            if ((repOn || (solveOn && g_solved)) && !g_macro.empty())
             {
                 macroApplyReplay();
             }
@@ -412,7 +513,16 @@ class $modify(AutoplayBaseGameLayer, GJBaseGameLayer)
         g_repP1 = g_repP2 = false;
         g_recP1 = g_recP2 = false;
 
-        if (MacroReplay::get()->getRealEnabled())
+        if (AutoSolve::get()->getRealEnabled())
+        {
+            if (!g_solved)
+            {
+                apSolve(m_player1);      // ganzes Level vorausrechnen (blockiert kurz)
+                if (!g_macro.empty())    // nur markieren, wenn wirklich berechnet
+                    g_solved = true;
+            }
+        }
+        else if (MacroReplay::get()->getRealEnabled())
             macroLoad();                 // Aufnahme fuer diesen Versuch laden
         else if (MacroRecord::get()->getRealEnabled())
             g_macro.clear();             // neue Aufnahme beginnen

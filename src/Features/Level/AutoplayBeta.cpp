@@ -7,6 +7,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <memory>
 #include <fstream>
 
 using namespace geode::prelude;
@@ -336,7 +337,9 @@ static void apSolve(PlayerObject* startPlr)
     const int  BEAM   = 16;      // parallel verfolgte beste Pfade
     const long BUDGET = 900000;  // max. Simulationsschritte (begrenzt die Freeze-Zeit)
 
-    struct Node { PlayerState st; std::vector<char> hist; float x; };
+    // PlayerState hinter unique_ptr: Android-gnustl kann gd::map nicht move-assignen,
+    // so werden beim Sortieren/Verschieben nur Zeiger bewegt.
+    struct Node { std::unique_ptr<PlayerState> st; std::vector<char> hist; float x = 0; };
 
     tn->apBegin();
     tn->apLoadFrom(startPlr);
@@ -344,12 +347,14 @@ static void apSolve(PlayerObject* startPlr)
     std::vector<Node> frontier;
     {
         Node n;
-        n.st.saveState(tn->apClone());
+        n.st = std::make_unique<PlayerState>();
+        n.st->saveState(tn->apClone());
         n.x = tn->apClone()->getPositionX();
         frontier.push_back(std::move(n));
     }
 
-    Node best = frontier[0];
+    std::vector<char> bestHist = frontier[0].hist;
+    float bestX = frontier[0].x;
     long steps = 0;
 
     for (int f = 0; f < MAXF && steps < BUDGET && !frontier.empty(); f++)
@@ -361,7 +366,7 @@ static void apSolve(PlayerObject* startPlr)
         {
             for (int inp = 0; inp < 2; inp++)
             {
-                s.st.loadState(tn->apClone());
+                s.st->loadState(tn->apClone());
                 tn->apHold(inp != 0);
                 bool alive = tn->apStep();
                 steps++;
@@ -369,7 +374,8 @@ static void apSolve(PlayerObject* startPlr)
                     continue;
 
                 Node c;
-                c.st.saveState(tn->apClone());
+                c.st = std::make_unique<PlayerState>();
+                c.st->saveState(tn->apClone());
                 c.x = tn->apClone()->getPositionX();
                 c.hist = s.hist;
                 c.hist.push_back((char)inp);
@@ -386,8 +392,11 @@ static void apSolve(PlayerObject* startPlr)
             children.resize(BEAM);
 
         frontier = std::move(children);
-        if (frontier[0].x > best.x)
-            best = frontier[0];
+        if (frontier[0].x > bestX)
+        {
+            bestX = frontier[0].x;
+            bestHist = frontier[0].hist;
+        }
     }
 
     tn->apEnd();
@@ -395,9 +404,9 @@ static void apSolve(PlayerObject* startPlr)
     // besten Pfad -> Macro (Kanten des Eingabezustands)
     g_macro.clear();
     bool last = false;
-    for (size_t i = 0; i < best.hist.size(); i++)
+    for (size_t i = 0; i < bestHist.size(); i++)
     {
-        bool p1 = best.hist[i] != 0;
+        bool p1 = bestHist[i] != 0;
         if (i == 0 || p1 != last)
         {
             g_macro.push_back({ (int)i, p1, false });
